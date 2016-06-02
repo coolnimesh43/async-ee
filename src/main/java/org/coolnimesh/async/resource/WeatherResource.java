@@ -45,6 +45,7 @@ public class WeatherResource extends HttpServlet {
         throws ServletException, IOException {
         logger.debug("Inside doGet method.");
         resp.setContentType(MediaType.APPLICATION_JSON.toString());
+
         final AsyncContext requestAsyncContext = req.startAsync();
         requestAsyncContext.addListener(new AsyncListener() {
 
@@ -52,31 +53,29 @@ public class WeatherResource extends HttpServlet {
             public void onTimeout(AsyncEvent event)
                 throws IOException {
                 asyncContextQueue.remove(requestAsyncContext);
-
             }
 
             @Override
             public void onStartAsync(AsyncEvent event)
                 throws IOException {
                 asyncContextQueue.remove(requestAsyncContext);
-
             }
 
             @Override
             public void onError(AsyncEvent event)
                 throws IOException {
                 asyncContextQueue.remove(requestAsyncContext);
-
             }
 
             @Override
             public void onComplete(AsyncEvent event)
                 throws IOException {
                 asyncContextQueue.remove(requestAsyncContext);
-
             }
         });
         this.asyncContextQueue.add(requestAsyncContext);
+
+        logger.debug("Request queue is: {}", this.asyncContextQueue.size());
     }
 
     public void sendData(String data) {
@@ -90,6 +89,14 @@ public class WeatherResource extends HttpServlet {
                 logger.error("Inside WeatherService#sendData while writing data. Exception is: {}", e);
             }
         }
+    }
+
+    public Queue<AsyncContext> getAsyncContextQueue() {
+        return asyncContextQueue;
+    }
+
+    public void setAsyncContextQueue(Queue<AsyncContext> asyncContextQueue) {
+        this.asyncContextQueue = asyncContextQueue;
     }
 
 }

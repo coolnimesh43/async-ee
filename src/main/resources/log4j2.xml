@@ -19,9 +19,12 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Logger name="org.coolnimesh" level="DEBUG" additivity="false">
+		<Logger name="org.coolnimesh.async" level="DEBUG" additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="RollingFileAppender" />
 		</Logger>
+		<Root level="DEBUG">
+			<AppenderRef ref="Console"></AppenderRef>
+		</Root>
 	</Loggers>
 </Configuration>
