@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.Logger;
-import org.coolnimesh.async.qualifiers.OpenWeatherMap;
 import org.coolnimesh.async.service.WeatherService;
 
 @WebServlet(urlPatterns = { "/weather" }, asyncSupported = true)
@@ -27,7 +26,6 @@ public class WeatherResource extends HttpServlet {
     private Queue<AsyncContext> asyncContextQueue = null;
 
     @Inject
-    @OpenWeatherMap
     private WeatherService weatherService;
 
     @Inject
@@ -47,6 +45,7 @@ public class WeatherResource extends HttpServlet {
         resp.setContentType(MediaType.APPLICATION_JSON.toString());
 
         final AsyncContext requestAsyncContext = req.startAsync();
+        requestAsyncContext.setTimeout(310000);
         requestAsyncContext.addListener(new AsyncListener() {
 
             @Override
@@ -79,7 +78,9 @@ public class WeatherResource extends HttpServlet {
     }
 
     public void sendData(String data) {
+        logger.debug("inside send data method. queue size is: {}", this.asyncContextQueue.size());
         for (AsyncContext context : asyncContextQueue) {
+            logger.debug("sending response to {}", context.getRequest().getRemoteAddr());
             try {
                 PrintWriter writer = context.getResponse().getWriter();
                 writer.write(data);
@@ -89,14 +90,6 @@ public class WeatherResource extends HttpServlet {
                 logger.error("Inside WeatherService#sendData while writing data. Exception is: {}", e);
             }
         }
-    }
-
-    public Queue<AsyncContext> getAsyncContextQueue() {
-        return asyncContextQueue;
-    }
-
-    public void setAsyncContextQueue(Queue<AsyncContext> asyncContextQueue) {
-        this.asyncContextQueue = asyncContextQueue;
     }
 
 }

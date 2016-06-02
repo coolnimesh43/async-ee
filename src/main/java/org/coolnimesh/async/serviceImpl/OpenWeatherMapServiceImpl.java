@@ -2,18 +2,16 @@
 package org.coolnimesh.async.serviceImpl;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.coolnimesh.async.qualifiers.OpenWeatherMap;
 import org.coolnimesh.async.service.WeatherDataService;
 import org.coolnimesh.async.util.ConfigurationProperties;
 
-@Singleton
-@OpenWeatherMap
+@Stateless
 public class OpenWeatherMapServiceImpl implements WeatherDataService {
 
     private Client client;
