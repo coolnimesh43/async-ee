@@ -8,10 +8,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.coolnimesh.async.qualifiers.OpenWeatherMap;
 import org.coolnimesh.async.service.WeatherDataService;
 import org.coolnimesh.async.util.ConfigurationProperties;
 
 @Singleton
+@OpenWeatherMap
 public class OpenWeatherMapServiceImpl implements WeatherDataService {
 
     private Client client;
@@ -37,7 +39,7 @@ public class OpenWeatherMapServiceImpl implements WeatherDataService {
     }
 
     @Override
-    public Object getWeatherData() {
+    public String getWeatherData() {
         Response response = this.webTarget.request().get();
         return response.readEntity(String.class);
     }

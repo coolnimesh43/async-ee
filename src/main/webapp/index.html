@@ -17,7 +17,7 @@
 	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
 	crossorigin="anonymous"></script>
 	
-	<script type="text/javascript" src="WEB-INF/resources/js/weather.js"></script>
+	<script type="text/javascript" src="resources/js/weather.js"></script>
 <title>Weather Kathmandu</title>
 </head>
 <body>
@@ -50,13 +50,13 @@
 								<strong>Weather</strong>
 							</p>
 						</div>
-						<div class="col-md-6 text-left">
+						<div class="col-md-4 text-left">
 							<p>
-								<strong id="weather">Cloudy</strong>
+								<strong id="weather">N/A</strong>
 							</p>
-							<div id="weather-image">
-								<img src="http://openweathermap.org/img/w/04d.png">
-							</div>
+						</div>
+						<div id="weather-image" class="col-md-2 text-left">
+							<img src="http://openweathermap.org/img/w/04d.png">
 						</div>
 					</div>
 					<div class="row">
@@ -65,9 +65,19 @@
 								<strong>Temprature</strong>
 							</p>
 						</div>
-						<div class="col-md-6 text-left">
+						<div class="col-md-2 text-left">
 							<p>
-								<strong id="temprature">20</strong>&nbsp;<sup>o</sup>C
+								Current &nbsp;<strong id="temprature">20</strong>&nbsp;<sup>o</sup>C
+							</p>
+						</div>
+						<div class="col-md-2 text-left">
+							<p>
+								Min&nbsp;<strong id="min-temprature">20</strong>&nbsp;<sup>o</sup>C
+							</p>
+						</div>
+						<div class="col-md-2 text-left">
+							<p>
+								Max&nbsp;<strong id="max-temprature">20</strong>&nbsp;<sup>o</sup>C
 							</p>
 						</div>
 					</div>
@@ -139,12 +149,12 @@
 							<div class="row">
 								<div class="col-md-6 text-right">
 									<p>
-										<strong>Set</strong>
+										<strong>Sun Set</strong>
 									</p>
 								</div>
 								<div class="col-md-6 text-left">
 									<p>
-										<strong id="Sun set">6:58 P.M</strong>
+										<strong id="set">6:58 P.M</strong>
 									</p>
 								</div>
 							</div>

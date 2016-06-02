@@ -11,6 +11,7 @@ import javax.ejb.TimerService;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
+import org.apache.logging.log4j.Logger;
 import org.coolnimesh.async.resource.WeatherResource;
 import org.coolnimesh.async.service.WeatherDataService;
 import org.coolnimesh.async.service.WeatherService;
@@ -23,6 +24,9 @@ public class WeatherServiceImpl implements WeatherService {
     private TimerService timerService;
 
     @Inject
+    private Logger logger;
+
+    @Inject
     @Default
     private WeatherDataService weatherDataService;
 
@@ -30,7 +34,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     @PostConstruct
     public void setTimer() {
-        this.timerService.createIntervalTimer(2000, 600000, new TimerConfig());
+        this.timerService.createIntervalTimer(600000, 600000, new TimerConfig());
     }
 
     @Override
@@ -41,6 +45,9 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Timeout
     private void setWeatherValues() {
-        this.weatherResource.sendData(this.weatherDataService.getWeatherData().toString());
+        logger.debug("Setting weather values.");
+        if (this.weatherResource != null) {
+            this.weatherResource.sendData(this.weatherDataService.getWeatherData().toString());
+        }
     }
 }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.Logger;
+import org.coolnimesh.async.qualifiers.OpenWeatherMap;
 import org.coolnimesh.async.service.WeatherService;
 
 @WebServlet(urlPatterns = { "/weather" }, asyncSupported = true)
@@ -26,6 +27,7 @@ public class WeatherResource extends HttpServlet {
     private Queue<AsyncContext> asyncContextQueue = null;
 
     @Inject
+    @OpenWeatherMap
     private WeatherService weatherService;
 
     @Inject
@@ -34,7 +36,6 @@ public class WeatherResource extends HttpServlet {
     @Override
     public void init()
         throws ServletException {
-        super.init();
         this.asyncContextQueue = new ConcurrentLinkedQueue<>();
         this.weatherService.setWeatherResource(this);
     }
@@ -42,7 +43,7 @@ public class WeatherResource extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
-
+        logger.debug("Inside doGet method.");
         resp.setContentType(MediaType.APPLICATION_JSON.toString());
         final AsyncContext requestAsyncContext = req.startAsync();
         requestAsyncContext.addListener(new AsyncListener() {
@@ -79,7 +80,6 @@ public class WeatherResource extends HttpServlet {
     }
 
     public void sendData(String data) {
-
         for (AsyncContext context : asyncContextQueue) {
             try {
                 PrintWriter writer = context.getResponse().getWriter();
