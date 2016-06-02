@@ -23,13 +23,13 @@ import org.coolnimesh.async.service.WeatherService;
 @WebServlet(urlPatterns = { "/weather" }, asyncSupported = true)
 public class WeatherResource extends HttpServlet {
 
-    private Queue<AsyncContext> asyncContextQueue = null;
-
     @Inject
     private WeatherService weatherService;
 
     @Inject
     private Logger logger;
+
+    private Queue<AsyncContext> asyncContextQueue = null;
 
     @Override
     public void init()
@@ -74,11 +74,18 @@ public class WeatherResource extends HttpServlet {
         });
         this.asyncContextQueue.add(requestAsyncContext);
 
-        logger.debug("Request queue is: {}", this.asyncContextQueue.size());
     }
 
+    /**
+     * Method to send data to the client after the asynchronous requests has
+     * been processed, i.e. weather data is available.
+     * 
+     * @author nimesh
+     * @param data
+     *            {@link String} The data to be sent to the client.
+     */
     public void sendData(String data) {
-        logger.debug("inside send data method. queue size is: {}", this.asyncContextQueue.size());
+        logger.debug("inside send data method.");
         for (AsyncContext context : asyncContextQueue) {
             logger.debug("sending response to {}", context.getRequest().getRemoteAddr());
             try {

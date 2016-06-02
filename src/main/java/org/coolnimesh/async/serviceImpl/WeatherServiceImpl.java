@@ -1,8 +1,6 @@
 
 package org.coolnimesh.async.serviceImpl;
 
-import java.util.Date;
-
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -17,9 +15,6 @@ import org.coolnimesh.async.service.WeatherService;
 @Startup
 public class WeatherServiceImpl implements WeatherService {
 
-    // @Resource
-    // private TimerService timerService;
-
     @Inject
     private Logger logger;
 
@@ -28,23 +23,15 @@ public class WeatherServiceImpl implements WeatherService {
 
     private WeatherResource weatherResource;
 
-    // @PostConstruct
-    // public void setTimer() {
-    // TimerConfig timerConfig = new TimerConfig();
-    // timerConfig.setPersistent(Boolean.FALSE);
-    // this.timerService.createIntervalTimer(5000, 300000, timerConfig);
-    // }
-
     @Override
     public void setWeatherResource(WeatherResource resource) {
         this.weatherResource = resource;
 
     }
 
-    // @Timeout
     @Schedule(hour = "*", minute = "*/5", persistent = false)
-    private void setWeatherValues() {
-        logger.debug("Setting weather values. Timeout occurred . Date is: {}", new Date());
+    private void setWeatherData() {
+        logger.debug("Inside WeatherServiceImpl#setWeatherData method.");
         if (this.weatherResource != null) {
             String weatherData = this.weatherDataService.getWeatherData().toString();
             logger.debug("Weather data is: {}", weatherData);

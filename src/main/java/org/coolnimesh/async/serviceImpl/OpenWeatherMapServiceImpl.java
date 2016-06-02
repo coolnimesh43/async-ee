@@ -26,6 +26,12 @@ public class OpenWeatherMapServiceImpl implements WeatherDataService {
         this.webTarget = this.client.target(openWeatherMapApiUrl);
     }
 
+    @Override
+    public String getWeatherData() {
+        Response response = this.webTarget.request().get();
+        return response.readEntity(String.class);
+    }
+
     private String buildOpenWeatherMapUrl() {
         StringBuilder urlBuilder = new StringBuilder(this.configs.getProperty("open-weather-api-url").toString());
         urlBuilder.append("?appId=");
@@ -34,12 +40,6 @@ public class OpenWeatherMapServiceImpl implements WeatherDataService {
         urlBuilder.append(this.configs.getProperty("open-weather-city-coord"));
         return urlBuilder.toString();
 
-    }
-
-    @Override
-    public String getWeatherData() {
-        Response response = this.webTarget.request().get();
-        return response.readEntity(String.class);
     }
 
 }
